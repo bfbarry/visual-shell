@@ -11,7 +11,7 @@ app.use((req, res, next) => {
   console.log(req.path, req.method)
   next()
 })
-
+global.PWD = '~'
 //routes
 app.use('/api/cli', cliRoutes)
 
