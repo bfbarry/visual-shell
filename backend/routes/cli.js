@@ -5,13 +5,29 @@
 
 const express = require('express')
 const fs = require('fs')
+const { opendir } = require ('fs/promises')
 const output = require('../helper/stdout_err')
+const { sub_tilde } = require('../helper/str_format')
 // const { spawn } = require('child_process')
 
 // console.log(stdout)
 const router = express.Router() //TODO how does this differ from app?
-router.get('/ls',  (req, res) => {
-  res.json(output(`ls ${PWD}`))
+
+//HELPER
+router.get('/ls',  async (req, res) => {
+  // this functionality should go in another function
+  // so it can be used by different controllers
+  let dirs = []
+  try {
+    const dir = await opendir(sub_tilde(PWD))
+    for await (const dirent of dir)
+      dirs.push({name: dirent.name, 
+                 isdir: dirent.isDirectory(),
+                path: PWD + '/' + dirent.name}) // full path, used to cd
+  } catch (err) {
+    console.error(err)
+  }
+  res.json(dirs)
   }
 )
 
@@ -20,9 +36,7 @@ router.post('/cd', (req, res)=> {
   let dir_text
   let append_flag = false
   //TODO ls /home not working
-  if (target[0] == '~') {
-    target = target.replace('~', process.env.HOME)
-  }
+  target = sub_tilde(target)
   if (target[0] == '/') { 
     dir_text = target
   } else {

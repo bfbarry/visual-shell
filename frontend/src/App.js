@@ -8,10 +8,8 @@ function App() {
     const fetchCLI = async () => {
       const res = await fetch('api/cli/ls')
       const json = await res.json()
-      // console.log(json)
-      // console.log(res.ok)
       if (res.ok) {
-        setText(json.stdout)
+        setText(json)
       }
     }
     fetchCLI()
