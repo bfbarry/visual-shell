@@ -2,23 +2,23 @@ import { useEffect, useState } from 'react'
 import LsWindow  from './components/LsWindow'
 
 function App() {
-  const [ text, setText ]  = useState(null)
+  const [ ls, setLs ]  = useState(null)
 
   useEffect(() => {
     const fetchCLI = async () => {
       const res = await fetch('api/cli/ls')
       const json = await res.json()
       if (res.ok) {
-        setText(json)
+        setLs(json)
       }
     }
     fetchCLI()
-  }, [setText])
+  }, [setLs])
 
   return (
     <div>
-      {text &&
-        <LsWindow ls_list={text}/>
+      {ls &&
+        <LsWindow ls={ls} setLs={setLs}/>
       }
     </div>
   );
