@@ -1,7 +1,8 @@
 const fs = require('fs')
 const { opendir } = require ('fs/promises')
+const { spawn } = require('child_process')
 
-const { sub_tilde } = require('../cli_utils/str_format')
+const { sub_tilde, isCode } = require('./helpers')
 // const output = require('../cli_utils/stdout_err')
 
 
@@ -15,6 +16,7 @@ const ls = async (path) => {
       for await (const dirent of dir)
         dirs.push({name: dirent.name, 
                   isdir: dirent.isDirectory(),
+                  iscode: isCode(path + '/' + dirent.name),
                   path: path + '/' + dirent.name}) // full path, used to cd
     } catch (err) {
       console.error(err)
@@ -47,11 +49,27 @@ const cd = async (target) => {
 
 
 const code = (target) => {
-  //on frontend check if is code file using list of extensions
-  //code . && code $file
+  /*
+  target: $`pwd`/filename
+   */
+  //on ls backend check if is code file using list of extensions
+  const pwd = target.split('/').slice(0, -1).join('/')
+  const child = spawn(`code ${pwd} && code ${target}`, {shell:true})
+
+  child.stderr.on('data', function (data) {
+    console.error("STDERR:", data.toString());
+  });
+  child.stdout.on('data', function (data) {
+    console.log("STDOUT:", data.toString());
+  });
+  child.on('exit', function (exitCode) {
+    console.log("Child exited with code: " + exitCode);
+  });
+
 }
 
 module.exports = {
   ls,
-  cd
+  cd,
+  code
 }

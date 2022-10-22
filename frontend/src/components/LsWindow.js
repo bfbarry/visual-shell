@@ -6,7 +6,7 @@ const LsWindow = ({ls, setLs}) => {
   if file_type = dir, should be clickable to cd into it
   ls can even be sorted by most visited (then right click to reset this if desired)
   */
-  const handleClick = async(txt) => {
+  const cd_click = async(txt) => {
     const res = await fetch('api/cli/cd', {
       method: 'POST',
       body: JSON.stringify({target: txt}),
@@ -23,18 +23,37 @@ const LsWindow = ({ls, setLs}) => {
       //do dispatch
       setLs(json)
     }
-
   }
+
+  const code_click = async(txt) => {
+    const res = await fetch('api/cli/code', {
+      method: 'POST',
+      body: JSON.stringify({target: txt}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await res.json()
+    if (!res.ok) {
+      //set error here
+      console.log('error here')
+    }
+    if (res.ok) {
+      //do dispatch
+      // setLs(json)
+    }
+  }
+  //TODO back button for cd ..
   return (
     <div>
       {ls && ls.map(i => {
         // console.log(i)
         const key = i.name+i.isdir.toString()
         return (
-          <div key={key}>
-            {i.isdir ? //TODO: code should open vscode
-                <p  className='cursor-pointer underline' onClick={()=> handleClick(i.path)}>{i.name}</p> :
-                <p >{i.name}</p>
+          <div className='inline' key={key}>
+            {i.isdir  ? <spawn className='cursor-pointer underline'      onClick={() => cd_click(i.path)}>  {i.name}</spawn> :
+             i.iscode ? <spawn className='cursor-pointer text-green-500' onClick={() => code_click(i.path)}>{i.name}</spawn> :
+                        <spawn> {i.name} </spawn>
             }
 
 
