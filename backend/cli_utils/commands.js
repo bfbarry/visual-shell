@@ -7,21 +7,29 @@ const { sub_tilde, isCode } = require('./helpers')
 
 
 const ls = async (path) => {
-  if (path === undefined) {
+  if (path === undefined) { //basically default arg if no path given
     path = PWD
   }
-  let dirs = []
+  console.log(path)
+  let contents = [{
+                  name  : '..', 
+                  isdir : true,
+                  iscode: false,
+                  path  : path.split('/').slice(0,-1).join('/')
+                }]
+
     try {
-      const dir = await opendir(sub_tilde(path))
-      for await (const dirent of dir)
-        dirs.push({name: dirent.name, 
-                  isdir: dirent.isDirectory(),
-                  iscode: isCode(path + '/' + dirent.name),
-                  path: path + '/' + dirent.name}) // full path, used to cd
+      const dir = await opendir(sub_tilde(path)) // loop over contents of dir, and set special file attributes
+      for await (const dirent of dir){
+        contents.push({name  : dirent.name, 
+                       isdir : dirent.isDirectory(),
+                       iscode: isCode(path + '/' + dirent.name),
+                       path  : path + '/' + dirent.name}) // full path, used to cd
+      }
     } catch (err) {
       console.error(err)
     }
-  return dirs
+  return contents
 }
 
 
