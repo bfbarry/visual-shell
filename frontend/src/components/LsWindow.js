@@ -51,8 +51,8 @@ const LsWindow = ({ls, setLs}) => {
         const key = i.name+i.isdir.toString()
         return (
           <div className='inline' key={key}>
-            {i.isdir  ? <span className='cursor-pointer underline'      onClick={() => cd_click(i.path)}>  {i.name}</span> :
-             i.iscode ? <span className='cursor-pointer text-green-500' onClick={() => code_click(i.path)}>{i.name}</span> :
+            {i.isdir  ? <span className='cursor-pointer underline'      onClick={() => cd_click(i.path)}> {i.name} </span> :
+             i.iscode ? <span className='cursor-pointer text-green-500' onClick={() => code_click(i.path)}> {i.name} </span> :
                         <span> {i.name} </span>
             }
 
