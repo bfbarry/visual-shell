@@ -43,26 +43,39 @@ const LsWindow = ({ls, setLs}) => {
       // setLs(json)
     }
   }
-  //TODO back button for cd ..
+
+  const NameContainer = ({ children }) => {
+    return(
+    <div className='inline rounded-md bg-[#414141] flex pl-1 h-[40px] basis-auto box-border'>
+      { children }
+    </div>)
+  }
+
+  const LSContainer = ({children}) => {
+    return (
+      <div className='rounded-sm flex flex-wrap bg-[#242424] h-[600px] w-[800px] m-1 justify-between'>
+        {children}
+      </div>
+    )
+  }
+
+
   return (
-    <div>
+    <LSContainer>
       {ls && ls.map(i => {
-        // console.log(i)
         const key = i.name+i.isdir.toString()
         return (
-          <div className='inline' key={key}>
+          <NameContainer key={key}>
             {i.isdir  ? <span className='cursor-pointer underline'      onClick={() => cd_click(i.path)}> {i.name} </span> :
              i.iscode ? <span className='cursor-pointer text-green-500' onClick={() => code_click(i.path)}> {i.name} </span> :
                         <span> {i.name} </span>
             }
-
-
-          </div>
+          </NameContainer>
           )
           }
         )
         }
-    </div>
+    </LSContainer>
   )
 }
 
