@@ -1,4 +1,4 @@
-// import { useState } from 'react'
+import { useState } from 'react'
 
 const LsWindow = ({ls, setLs}) => {
   /*  constantly shows ls of current dir
@@ -46,36 +46,60 @@ const LsWindow = ({ls, setLs}) => {
 
   const NameContainer = ({ children }) => {
     return(
-    <div className='inline rounded-md bg-[#414141] flex pl-1 h-[40px] basis-auto box-border'>
+    <div className='inline rounded-md bg-[#414141] flex pl-1 h-[40px] basis-auto grow'>
       { children }
     </div>)
   }
 
   const LSContainer = ({children}) => {
     return (
-      <div className='rounded-sm flex flex-wrap bg-[#242424] h-[600px] w-[800px] m-1 justify-between'>
+      <div className='rounded-sm flex flex-wrap bg-[#242424] h-[600px] w-[800px] m-1 gap-[10px] content-start p-[10px]'>
         {children}
       </div>
     )
   }
 
+  const SearchBar = () => {
+    // TODO : highlight searched substring or regex
+    const [searchTerm, setSearchTerm] = useState('');
+    
+    const handleChange = (event) => {
+      setSearchTerm(event.target.value)
+      console.log(searchTerm)
+      console.log(ls.filter(i => i.name.includes(searchTerm) ))
+      // setLs([{name: '..', isdir: true, iscode: false, path: '/Users'}])
+
+    }
+
+    // <div className='pl-[10px] bg-[#ccc]'>
+    
+        {/* </div> */}
+    return (
+      <form>
+          <input type="text" placeholder="" value={searchTerm} onChange={handleChange}/>
+      </form>
+    )
+  }
 
   return (
-    <LSContainer>
-      {ls && ls.map(i => {
-        const key = i.name+i.isdir.toString()
-        return (
-          <NameContainer key={key}>
-            {i.isdir  ? <span className='cursor-pointer underline'      onClick={() => cd_click(i.path)}> {i.name} </span> :
-             i.iscode ? <span className='cursor-pointer text-green-500' onClick={() => code_click(i.path)}> {i.name} </span> :
-                        <span> {i.name} </span>
+    <>
+      <LSContainer>
+        {ls && ls.map(i => {
+          const key = i.name+i.isdir.toString()
+          return (
+            <NameContainer key={key}>
+              {i.isdir  ? <span className='cursor-pointer underline'      onClick={() => cd_click(i.path)}> {i.name} </span> :
+              i.iscode ? <span className='cursor-pointer text-green-500' onClick={() => code_click(i.path)}> {i.name} </span> :
+                          <span> {i.name} </span>
+              }
+            </NameContainer>
+            )
             }
-          </NameContainer>
           )
           }
-        )
-        }
-    </LSContainer>
+      </LSContainer>
+      <SearchBar/>
+    </>
   )
 }
 

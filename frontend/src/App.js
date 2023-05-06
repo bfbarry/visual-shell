@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react'
 import LsWindow  from './components/LsWindow'
 
 function App() {
+  // where ls is like
+  // [{
+  //   name  : str, 
+  //   isdir : bool,
+  //   iscode: bool,
+  //   path  : str
+  // }]
+  // const [ ls, setLs ]  = useState(null)
   const [ ls, setLs ]  = useState(null)
 
   useEffect(() => {
