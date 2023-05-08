@@ -6,9 +6,8 @@ const SearchBar = (props) => {
   
   return (
     <div className='flex inline-flex justify-center p-[10px] bg-[#242424]'>
-      <input className='bg-[black] text-white' 
+      <input className='bg-[black] text-white caret-white' 
             type="text"
-            placeholder="" 
             value={props.searchTerm} 
             onChange={e => props.setSearchTerm(e.target.value)}/>
     </div>
@@ -24,9 +23,11 @@ const LsWindow = ({ls, setLs}) => {
     - ls can even be sorted by most visited (then right click to reset this if desired)
   */
   const [searchTerm, setSearchTerm] = useState(''); // must be filtered in jsx, otherwise setLs doesn't work in a function!
-  const container_bg = '#242424'
+                                                    // TODO would rather use null so you have full text, but doesn't work
+  // const container_bg = '#242424'
   
   const cd_click = async(txt) => {
+    console.log('cd click!')
     const res = await fetch('api/cli/cd', {
       method: 'POST',
       body: JSON.stringify({target: txt}),
@@ -42,6 +43,7 @@ const LsWindow = ({ls, setLs}) => {
     if (res.ok) {
       //do dispatch
       setLs(json)
+      setSearchTerm('')
     }
   }
 
@@ -56,7 +58,7 @@ const LsWindow = ({ls, setLs}) => {
     const json = await res.json()
     if (!res.ok) {
       //set error here
-      console.log('error here')
+      console.log(`error ${json}`)
     }
     if (res.ok) {
       //do dispatch
@@ -81,20 +83,19 @@ const LsWindow = ({ls, setLs}) => {
 
   const LsTextItem = ({text, ftypecss}) => {
     // set highlight on search term
-    const searchTermCSS = 'text-blue'
+    const searchTermCSS = 'text-orange-600'
     const split = text.split(searchTerm)
     const terms_inserted = []
     for (let i=0; i<split.length; i++) {
         // insert non searchTerm
-        if (split[i] != '') {
+        if (split[i] !== '') {
             terms_inserted.push({text: split[i], css: ftypecss})
         }
         // insert searchTerm
-        if (searchTerm != '' && i!=split.length-1) {
+        if (searchTerm !== '' && i !== split.length-1) {
             terms_inserted.push({text: searchTerm, css: searchTermCSS})
         }
     } 
-    console.log(terms_inserted)
     return (
       <>
       {terms_inserted.map((i, ix) => {
@@ -116,7 +117,7 @@ const LsWindow = ({ls, setLs}) => {
           return (
             <NameContainer key={key}>
               {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > <LsTextItem text={i.name} ftypecss="text-white underline"/> </span> :
-               i.iscode ? <span className='cursor-pointer' onClick={() => code_click(i.path)}>           <LsTextItem text={i.name} ftypecss="text-green-500"/> </span> :
+               i.iscode ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> <LsTextItem text={i.name} ftypecss="text-green-500"/> </span> :
                           <span> <LsTextItem text={i.name} ftypecss="text-black"/> </span>
               }
             </NameContainer>
