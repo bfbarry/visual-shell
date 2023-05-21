@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import LsWindow  from './components/LsWindow'
+import { LsObject } from './types'
 
 function App() {
   // where ls is like
@@ -10,7 +11,7 @@ function App() {
   //   path  : str
   // }]
   // const [ ls, setLs ]  = useState(null)
-  const [ ls, setLs ]  = useState(null)
+  const [ ls, setLs ]  = useState<LsObject[]>([])
 
   useEffect(() => {
     const fetchCLI = async () => {

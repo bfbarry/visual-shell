@@ -1,5 +1,5 @@
-const item = 'asdwasdit'
-const term = null
+const item:string = 'asdwasdit'
+const term = ""
 // const item = 'asdaaaaasda'
 // const term = 'a'
 
@@ -19,3 +19,5 @@ for (let i=0; i<split.length; i++) {
 } 
 
 console.log(terms_inserted)
+
+export {}

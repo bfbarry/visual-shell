@@ -1,6 +1,11 @@
-import { useState } from 'react'
+import React, { FC, useState } from 'react' // might need React 
+import { LsObject } from '../types'
 
-const SearchBar = (props) => {
+interface SearchBarProps {
+  searchTerm: string;
+  setSearchTerm: (e: string) => void;
+}
+const SearchBar:FC<SearchBarProps> = (props) => {
   // TODO : highlight searched substring or regex
   // This is a high level component because otherwise it loses focus on each rerender (composition vs inheritance!)
   
@@ -14,8 +19,11 @@ const SearchBar = (props) => {
   )
 }
 
-
-const LsWindow = ({ls, setLs}) => {
+interface LsWindowProps {
+  ls: LsObject[];
+  setLs: (o: LsObject[]) => void
+}
+const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
   /*  constantly shows ls of current dir
   ls: list of objs like {name, file_type, path}
   if file_type = dir, is be clickable to cd into it
@@ -26,8 +34,7 @@ const LsWindow = ({ls, setLs}) => {
                                                     // TODO would rather use null so you have full text, but doesn't work
   // const container_bg = '#242424'
   
-  const cd_click = async(txt) => {
-    console.log('cd click!')
+  const cd_click = async(txt: string) => {
     const res = await fetch('api/cli/cd', {
       method: 'POST',
       body: JSON.stringify({target: txt}),
@@ -38,7 +45,7 @@ const LsWindow = ({ls, setLs}) => {
     const json = await res.json()
     if (!res.ok) {
       //set error here
-      console.log('error here')
+      console.log('error fetch api/cli/cd')
     }
     if (res.ok) {
       //do dispatch
@@ -47,7 +54,7 @@ const LsWindow = ({ls, setLs}) => {
     }
   }
 
-  const code_click = async(txt) => {
+  const code_click = async(txt: string) => {
     const res = await fetch('api/cli/code', {
       method: 'POST',
       body: JSON.stringify({target: txt}),
@@ -66,14 +73,20 @@ const LsWindow = ({ls, setLs}) => {
     }
   }
 
-  const NameContainer = ({ children }) => {
+  interface NameContainerProps{
+    children: React.ReactNode;
+  }
+  const NameContainer:FC<NameContainerProps> = ({children}) => {
     return(
     <div className='inline rounded-md bg-[#414141] flex pl-1 h-[40px] basis-auto'>
       { children }
     </div>)
   }
 
-  const LsContainer = ({children}) => {
+  interface LsContainerProps{
+    children: React.ReactNode;
+  }
+  const LsContainer:FC<LsContainerProps> = ({children}) => {
     return (
       <div className='rounded-sm flex flex-wrap bg-[#242424] h-[600px] w-[800px] m-1 gap-[15px] content-start p-[10px]'>
         {children}
@@ -81,7 +94,11 @@ const LsWindow = ({ls, setLs}) => {
     )
   }
 
-  const LsTextItem = ({text, ftypecss}) => {
+  interface LsTextItemProps{
+    text: string;
+    ftypecss: string;
+  }
+  const LsTextItem:FC<LsTextItemProps> = ({text, ftypecss}) => {
     // set highlight on search term
     const searchTermCSS = 'text-orange-600'
     const split = text.split(searchTerm)
