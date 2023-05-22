@@ -1,7 +1,11 @@
-import os, subprocess as sp
-from flask import jsonify
 from app import app
+import os
+from os.path import join, dirname, realpath
+import subprocess as sp
+from flask import jsonify
+import json
 from .helpers import is_code, sub_tilde
+
 
 def ls(path=None):
     """
@@ -9,19 +13,29 @@ def ls(path=None):
     """
     if path == None:
         path = app.config['PWD']
-    print(sub_tilde(path))
-    contents = [{
+    contents = [
+                {'name'  : '.', 
+                'isdir' : True,
+                'iscode': False,
+                'path'  : path,
+                'has_handler': False},
+                {
                 'name'  : '..', 
                 'isdir' : True,
                 'iscode': False,
-                'path'  : '/'.join(path.split('/')[:-1])
-                }]
+                'path'  : '/'.join(path.split('/')[:-1]),
+                'has_handler': False
+                },
+                ]
+
     for e in os.scandir(sub_tilde(path)):
+        entity_path = join(path, e.name)
         contents.append({
-                'name'  : e.name, 
+                'name'  : e.name,
                 'isdir' : e.is_dir(),
                 'iscode': is_code(e.name),
-                'path'  : os.path.join(path, e.name)
+                'path'  : entity_path, 
+                'has_handler': False if e.is_dir() or is_code(e.name) else True  # default handler for files is 'cat'
                 })
     return jsonify(contents)
 
@@ -35,7 +49,7 @@ def cd(target):
     if target[0] == '/':
         dir_text = target
     else:
-        dir_text = os.path.join(app.config['PWD'], target)
+        dir_text = join(app.config['PWD'], target)
 
     if not os.path.exists(dir_text):
         return jsonify({'err': f'cd: no such file or directory: {target}'})

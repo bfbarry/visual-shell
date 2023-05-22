@@ -3,14 +3,6 @@ import LsWindow  from './components/LsWindow'
 import { LsObject } from './types'
 
 function App() {
-  // where ls is like
-  // [{
-  //   name  : str, 
-  //   isdir : bool,
-  //   iscode: bool,
-  //   path  : str
-  // }]
-  // const [ ls, setLs ]  = useState(null)
   const [ ls, setLs ]  = useState<LsObject[]>([])
 
   useEffect(() => {
@@ -25,7 +17,9 @@ function App() {
   }, [setLs])
 
   return (
-    <div>
+    <div onContextMenu={(e) => e.preventDefault()}>
+      <span className='text-white'>{ls[0].path}</span>
+
       {ls &&
         <LsWindow ls={ls} setLs={setLs}/>
       }

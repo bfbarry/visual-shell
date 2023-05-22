@@ -1,5 +1,5 @@
 from app import api, app
-from app.controllers import cli
+from app.controllers import cli, cli_custom
 from flask import request
 
 
@@ -9,7 +9,7 @@ def ls():
     return cli.ls(data.get('target'))
 
 
-@api.route('pwd', methods=['GET'])
+@api.route('/pwd', methods=['GET'])
 def pwd():
     return cli.cwd()
 
@@ -24,3 +24,9 @@ def cd():
 def code():
     data = request.get_json() or {}
     return cli.code(data.get('target'))
+
+## custom cli
+@api.route('/handle', methods=['POST'])
+def handle():
+    data = request.get_json() or {}
+    return cli_custom.handle(data.get('target'))

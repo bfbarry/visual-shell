@@ -3,4 +3,5 @@ export interface LsObject {
     isdir : boolean;
     iscode: boolean;
     path  : string;
+    has_handler: string;
   }

@@ -73,6 +73,25 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
     }
   }
 
+  const handler_click = async(txt: string) => {
+    const res = await fetch('api/cli/handle', {
+      method: 'POST',
+      body: JSON.stringify({target: txt}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await res.json()
+    if (!res.ok) {
+      //set error here
+      console.log(`error ${json}`)
+    }
+    if (res.ok) {
+      //do dispatch
+      console.log(json)
+    }
+  }
+
   interface NameContainerProps{
     children: React.ReactNode;
   }
@@ -128,14 +147,23 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
   return (
     <>
       <LsContainer>
-        {ls && ls.filter(i => i.name.includes(searchTerm) )
+        {ls && ls.slice(1).filter(i => i.name.includes(searchTerm) )
                  .map(i => {
           const key = i.name+i.isdir.toString()
           return (
             <NameContainer key={key}>
-              {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > <LsTextItem text={i.name} ftypecss="text-white underline"/> </span> :
-               i.iscode ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> <LsTextItem text={i.name} ftypecss="text-green-500"/> </span> :
-                          <span> <LsTextItem text={i.name} ftypecss="text-black"/> </span>
+              {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > 
+                            <LsTextItem text={i.name} ftypecss="text-white underline"/> 
+                          </span> :
+               i.iscode ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
+                            <LsTextItem text={i.name} ftypecss="text-green-500"/> 
+                          </span> :
+               i.has_handler? <span className='cursor-pointer' onClick={() => handler_click(i.path)}> 
+                            <LsTextItem text={i.name} ftypecss="text-emerald-500"/> 
+                          </span> :
+                          <span> 
+                            <LsTextItem text={i.name} ftypecss="text-black"/>
+                          </span>
               }
             </NameContainer>
             )

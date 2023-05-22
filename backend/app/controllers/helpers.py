@@ -2,6 +2,7 @@ import os
 
 
 def sub_tilde(s):
+    """TODO: redundant with expanduser"""
     if s[0] == '~':
         s = s.replace('~', os.path.expanduser('~'))
         return s
