@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import LsWindow  from './components/LsWindow'
+import CommandLine from './components/CommandLine'
 import { LsObject } from './types'
 
-function App() {
+const App:FC = () => {
   const [ ls, setLs ]  = useState<LsObject[]>([])
+  const [ terminalText, setTerminalText] = useState('')
 
   useEffect(() => {
     const fetchCLI = async () => {
@@ -14,15 +16,18 @@ function App() {
       }
     }
     fetchCLI()
+    // console.log(ls)
   }, [setLs])
-
+  
   return (
     <div onContextMenu={(e) => e.preventDefault()}>
-      <span className='text-white'>{ls[0].path}</span>
-
-      {ls &&
+      {ls.length &&
+      <>
+        <span className='text-white'>{ls[0].path}</span>
         <LsWindow ls={ls} setLs={setLs}/>
+      </>
       }
+      <CommandLine text={terminalText} setText={setTerminalText}/>
     </div>
   );
 }

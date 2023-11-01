@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react' // might need React 
 
 
-//TODO
+//TODO: thingy when you right click
 // note: currently disabled right click across app
 export const rightClick = (e:React.MouseEvent, path: string) => {
     e.preventDefault()

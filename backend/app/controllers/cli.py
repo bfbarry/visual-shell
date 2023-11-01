@@ -7,6 +7,12 @@ import json
 from .helpers import is_code, sub_tilde
 
 
+def tty(text):
+    os.chdir(app.config['PWD'])
+    os.system(text)
+    return jsonify({'ok':'yes'})
+
+
 def ls(path=None):
     """
     path (str): full path
