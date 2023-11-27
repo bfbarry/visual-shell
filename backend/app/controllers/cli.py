@@ -5,6 +5,7 @@ import subprocess as sp
 from flask import jsonify
 import json
 from .helpers import is_code, sub_tilde
+import logging
 
 
 def tty(text):

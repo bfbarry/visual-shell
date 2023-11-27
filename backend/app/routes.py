@@ -5,7 +5,10 @@ from flask import request
 
 @api.route('/ls', methods=['GET'])
 def ls():
-    data = request.get_json() or {}
+    try: # no try/catch results in 415 from get_json() on non json request
+        data = request.get_json()
+    except:
+        data = {}
     return cli.ls(data.get('target'))
 
 

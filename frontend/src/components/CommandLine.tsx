@@ -22,6 +22,9 @@ const CommandLine:FC<CommandLineProps> = (props) => {
     }
     if (res.ok) {
       //do dispatch
+      // TODO ls front end should update to show changes
+      // TODO show stdout, and clear input box
+      // TODO record history
       props.setText(json)
     }
   }

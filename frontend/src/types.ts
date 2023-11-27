@@ -1,3 +1,7 @@
+/**
+ * common types
+ */
+
 export interface LsObject {
     name  : string;
     isdir : boolean;
