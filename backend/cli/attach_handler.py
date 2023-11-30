@@ -9,6 +9,7 @@ Add to visual shell notes: custom file interface, eg for epad reads it using pyt
 generates common code use cases.  Same concept for csv, hdf5, model. Json and logs open with $less option. 
 Open other files with other apps (eg jpeg) word cloud or plots on json
 
+
 Gist when hover on file
 """
 if __name__ == '__main__':

@@ -1,12 +1,13 @@
 import React, { createContext, useReducer, type Dispatch } from "react";
 import { LsObject } from "../types";
 
-export const LsContext = createContext({lsitems: [], 
+let init: LsObject[] = [];
+export const LsContext = createContext({ls: init, 
 										dispatch: (() => undefined) as Dispatch<any>}
 									  ); // contains state and dispatch
 
 type contextState = {
-	lsitems: Array<LsObject>;
+	ls: Array<LsObject>;
 }
 type contextAction = {
 	type: string;
@@ -16,8 +17,9 @@ type contextAction = {
 export const lsReducer = (state: contextState, action:contextAction) => {
 	switch (action.type) {
 		case 'SET_LS':
+			localStorage.setItem('ls', JSON.stringify(action.payload));
 			return {
-				lsitems: action.payload
+				ls: action.payload
 			}
 		default:
 			return state
@@ -29,7 +31,7 @@ type LsContextProviderProps = {
 }
 export const LsContextProvider = ({ children }: LsContextProviderProps) => {
 	const [state, dispatch] = useReducer(lsReducer, {
-		lsitems: null
+		ls: []
 	});
 
 	return (

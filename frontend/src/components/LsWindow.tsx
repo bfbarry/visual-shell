@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react' // might need React 
-import { LsObject } from '../types'
+import React, { FC, useEffect, useState } from 'react' // might need React 
+import { useLsContext } from '../hooks/useLsContext';
 
 interface SearchBarProps {
   searchTerm: string;
@@ -19,11 +19,8 @@ const SearchBar:FC<SearchBarProps> = (props) => {
   )
 }
 
-interface LsWindowProps {
-  ls: LsObject[];
-  setLs: (o: LsObject[]) => void
-}
-const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
+
+const LsWindow:FC = () => {
   /*  constantly shows ls of current dir
   ls: list of objs like {name, file_type, path}
   if file_type = dir, is be clickable to cd into it
@@ -31,9 +28,22 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
     - ls can even be sorted by most visited (then right click to reset this if desired)
   */
   const [searchTerm, setSearchTerm] = useState(''); // must be filtered in jsx, otherwise setLs doesn't work in a function!
-                                                    // TODO would rather use null so you have full text, but doesn't work
+  const { ls, dispatch } = useLsContext();
+  // TODO would rather use null so you have full text, but doesn't work
   // const container_bg = '#242424'
   
+  useEffect(() => {
+    const fetchCLI = async () => {
+      const res = await fetch('api/cli/ls')
+      const json = await res.json()
+      if (res.ok) {
+        dispatch({type: 'SET_LS', payload: json});
+      }
+    }
+    fetchCLI()
+    // console.log(ls)
+  }, [dispatch])
+
   const cd_click = async(txt: string) => {
     const res = await fetch('api/cli/cd', {
       method: 'POST',
@@ -49,7 +59,7 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
     }
     if (res.ok) {
       //do dispatch
-      setLs(json)
+      dispatch({type: 'SET_LS', payload: json})
       setSearchTerm('')
     }
   }
@@ -69,7 +79,6 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
     }
     if (res.ok) {
       //do dispatch
-      // setLs(json)
     }
   }
 
@@ -146,8 +155,11 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
 
   return (
     <>
+    {ls.length &&
+      <>
+      <span className='text-white'>{ls[0].path}</span>
       <LsContainer>
-        {ls && ls.slice(1).filter(i => i.name.includes(searchTerm) )
+        {ls.slice(1).filter(i => i.name.includes(searchTerm) )
                  .map(i => {
           const key = i.name+i.isdir.toString()
           return (
@@ -171,6 +183,8 @@ const LsWindow:FC<LsWindowProps> = ({ls, setLs}) => {
           )
           }
       </LsContainer>
+      </>
+    }
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
     </>
   )

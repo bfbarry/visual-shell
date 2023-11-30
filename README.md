@@ -7,6 +7,11 @@ built on node and react
 - h5, csv handler
 - right click context menu
 - bookmarks
+- 'workflows' kind of like aliases but more temporary
+    - eg., checking ls -la | grep thing of directory
+    - keep this in sidebar
+    - or just common files/dirs visited
+- expandable cli zones
 - make micro python 'shell' scripts (have all os and path modules pre imported) in the terminal, runs as child_process
     - could just create a directory specifically for these scripts, and open it directly with vs code!
 - other figma stuff
@@ -16,10 +21,6 @@ built on node and react
 - graphical `mv`: select to and from
 - combine with brian_utils (like git thing)
 - console/command line should have console controller, which then delegates to different functions based on string input (e.g., mkdir, cd, grep)
-- 'workflows' kind of like aliases but more temporary
-    - eg., checking ls -la | grep thing of directory
-    - keep this in sidebar
-    - or just common files/dirs visited
 - show connection status with ssh so user doesn't have to type to find out
 
 ## UI

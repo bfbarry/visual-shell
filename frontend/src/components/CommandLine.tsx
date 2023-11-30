@@ -1,4 +1,5 @@
-import React, { FC } from 'react' // might need React 
+import React, { FC } from 'react';
+import { useGetLs } from '../hooks/useGetLs';
 
 
 interface CommandLineProps {
@@ -6,6 +7,8 @@ interface CommandLineProps {
   setText: (e: string) => void;
 }
 const CommandLine:FC<CommandLineProps> = (props) => {
+  const { getLs } = useGetLs();
+
   const handleSubmit = async(e: React.ChangeEvent<any>) => {
     e.preventDefault()
     const res = await fetch('api/cli/tty', {
@@ -22,10 +25,10 @@ const CommandLine:FC<CommandLineProps> = (props) => {
     }
     if (res.ok) {
       //do dispatch
-      // TODO ls front end should update to show changes
+      getLs()
       // TODO show stdout, and clear input box
-      // TODO record history
-      props.setText(json)
+      // TODO record history to bash_history.log
+      props.setText('')
     }
   }
 
