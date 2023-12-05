@@ -105,6 +105,7 @@ const LsWindow:FC = () => {
     children: React.ReactNode;
   }
   const NameContainer:FC<NameContainerProps> = ({children}) => {
+    // TODO this should be able to adjust to  resize
     return(
     <div className='inline rounded-md bg-[#414141] flex pl-1 h-[40px] basis-auto'>
       { children }
@@ -167,11 +168,11 @@ const LsWindow:FC = () => {
               {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > 
                             <LsTextItem text={i.name} ftypecss="text-white underline"/> 
                           </span> :
-               i.iscode ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
+               i.is_text ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
                             <LsTextItem text={i.name} ftypecss="text-green-500"/> 
                           </span> :
                i.has_handler? <span className='cursor-pointer' onClick={() => handler_click(i.path)}> 
-                            <LsTextItem text={i.name} ftypecss="text-emerald-500"/> 
+                            <LsTextItem text={i.name} ftypecss="text-blue-500"/> 
                           </span> :
                           <span> 
                             <LsTextItem text={i.name} ftypecss="text-black"/>

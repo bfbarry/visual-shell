@@ -1,10 +1,9 @@
 from app import app
 import os
 from os.path import join, dirname, realpath
-import subprocess as sp
 from flask import jsonify
 import json
-from .helpers import is_code, sub_tilde
+from .helpers import run_shell_no_stdout, run_shell_stdout, is_text, sub_tilde
 import logging
 
 
@@ -23,13 +22,13 @@ def ls(path=None):
     contents = [
                 {'name'  : '.', 
                 'isdir' : True,
-                'iscode': False,
+                'is_text': False,
                 'path'  : path,
                 'has_handler': False},
                 {
                 'name'  : '..', 
                 'isdir' : True,
-                'iscode': False,
+                'is_text': False,
                 'path'  : '/'.join(path.split('/')[:-1]),
                 'has_handler': False
                 },
@@ -40,9 +39,9 @@ def ls(path=None):
         contents.append({
                 'name'  : e.name,
                 'isdir' : e.is_dir(),
-                'iscode': is_code(e.name),
+                'is_text': is_text(e.name),
                 'path'  : entity_path, 
-                'has_handler': False if e.is_dir() or is_code(e.name) else True  # default handler for files is 'cat'
+                'has_handler': False if e.is_dir() or is_text(e.name) else True
                 })
     return jsonify(contents)
 
@@ -67,7 +66,7 @@ def cd(target):
 def code(target):
     pwd = '/'.join(target.split('/')[:-1])
     try:
-        sp.run(f'code {pwd} && code {target}', shell=True)
+        run_shell_no_stdout(f'code {pwd} && code {target}')
         return jsonify('ok')
     except Exception as e:
         return f'500: {e}'

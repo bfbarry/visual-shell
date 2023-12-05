@@ -5,7 +5,7 @@
 export interface LsObject {
     name  : string;
     isdir : boolean;
-    iscode: boolean;
+    is_text: boolean;
     path  : string;
     has_handler: string;
   }
