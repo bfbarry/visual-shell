@@ -8,6 +8,7 @@ import logging
 
 
 def tty(text):
+    # TODO use subprocess and get exit code
     os.chdir(app.config['PWD'])
     os.system(text)
     return jsonify({'ok':'yes'})

@@ -1,2 +1,3 @@
 {"hey": "you", 
-"/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/test.csv": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/testhandler.py"}
+"/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.csv": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/base_handler_csv.py", 
+"/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.h5": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/base_handler_h5.py"}

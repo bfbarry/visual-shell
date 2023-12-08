@@ -5,14 +5,15 @@ from flask import jsonify
 import json
 
 
-def handle(fpath):
+handler_path = join(dirname(dirname(dirname(realpath(__file__)))), 'config', 'handlers.json') # TODO: this could bload
+with open(handler_path, 'r') as f:
+    handlers = json.load(f)
+
+def handle(fpath) -> json:
     """
     fpath (str): path of file to consume by custom handler
     interface consideration: might rename this differently than the custom shell command?
     """
-    handler_path = join(dirname(dirname(dirname(realpath(__file__)))), 'config', 'handlers.json') # TODO: this could bload
-    with open(handler_path, 'r') as f:
-        handlers = json.load(f)
     
     handler = handlers.get(fpath)
     if not handler:
@@ -25,5 +26,11 @@ def handle(fpath):
     main = getattr(module, 'main') # main always takes in a file path
     return jsonify(main(fpath))
 
+
+def list_handlers() -> list:
+    # should be filterable by file extension
+    handlers = handlers.values()
+
+
 if __name__ == '__main__':
-    print(handle('/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/test.csv'))
+    print(handle('/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.csv'))

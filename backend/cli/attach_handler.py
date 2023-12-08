@@ -19,9 +19,10 @@ if __name__ == '__main__':
     cl_args = parser.parse_args()
 
     config_path = join(dirname(dirname(realpath(__file__))), 'config', 'handlers.json') # ../config TODO one json could bloat
+    # TODO use full path
     new_item = {cl_args.file: cl_args.handler}
     with open(config_path, 'r') as f:
         handler_config = json.load(f)
     with open(config_path, 'w') as f:
         handler_config = {**handler_config, **new_item}
-        json.dump(handler_config, f)
+        json.dump(handler_config, f, indent=4)
