@@ -2,6 +2,8 @@
  * common types
  */
 
+import { StringLiteral } from "typescript";
+
 export interface LsObject {
     name  : string;
     isdir : boolean;
@@ -9,3 +11,8 @@ export interface LsObject {
     path  : string;
     handler: string;
   }
+
+export interface BookmarkObject {
+  alias: string;
+  path: string;
+}

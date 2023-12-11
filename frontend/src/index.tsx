@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { LsContextProvider } from './context/LsContext';
-
+import { BookmarksContextProvider } from './context/BookmarksContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <LsContextProvider>
-      <App />
+      <BookmarksContextProvider>
+        <App />
+      </BookmarksContextProvider>
     </LsContextProvider>
   </React.StrictMode>
 );

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react' // might need React 
 import { useLsContext } from '../hooks/useLsContext';
-import { useGetLs } from '../hooks/useGetLs';
+import { useSetLs } from '../hooks/useSetLs';
 import { LsCurrPath } from './ls/LsCurrPath';
 interface SearchBarProps {
   searchTerm: string;
@@ -32,12 +32,12 @@ const LsWindow:FC = () => {
   const [searchTerm, setSearchTerm] = useState(''); // must be filtered in jsx, otherwise setLs doesn't work in a function!
   const { ls, dispatch } = useLsContext();
   const [currPath, setCurrPath] = useState('');
-  const { getLs, lsIsLoading } = useGetLs();
+  const { setLs, lsIsLoading } = useSetLs();
   // TODO would rather use null so you have full text, but doesn't work
   // const container_bg = '#242424'
   
   useEffect(() => {
-    getLs()
+    setLs()
   }, [])
 
   useEffect(() => {

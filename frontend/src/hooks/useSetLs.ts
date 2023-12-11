@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useLsContext } from "./useLsContext";
 
-export const useGetLs = () => {
+export const useSetLs = () => {
   const [error, setError] = useState<boolean|null>(false);
   const [lsIsLoading, setIsLoading] = useState(false);
   const { dispatch } = useLsContext();
 
-  const getLs = async() => {
+  const setLs = async() => {
     setIsLoading(true);
     setError(null);
     const res = await fetch('api/cli/ls')
@@ -21,5 +21,5 @@ export const useGetLs = () => {
       console.log('err')
     }
   }
-  return { getLs, lsIsLoading, error}
+  return { setLs, lsIsLoading, error}
 }

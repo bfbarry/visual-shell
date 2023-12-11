@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useGetLs } from '../hooks/useGetLs';
+import { useSetLs } from '../hooks/useSetLs';
 
 
 interface CommandLineProps {
@@ -7,7 +7,7 @@ interface CommandLineProps {
   setText: (e: string) => void;
 }
 const CommandLine:FC<CommandLineProps> = (props) => {
-  const { getLs } = useGetLs();
+  const { setLs } = useSetLs();
 
   const handleSubmit = async(e: React.ChangeEvent<any>) => {
     e.preventDefault()
@@ -25,7 +25,7 @@ const CommandLine:FC<CommandLineProps> = (props) => {
     }
     if (res.ok) {
       //do dispatch
-      getLs()
+      setLs()
       // TODO show stdout, and clear input box
       // TODO record history to bash_history.log
       props.setText('')

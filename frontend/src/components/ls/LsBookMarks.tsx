@@ -4,7 +4,9 @@ import { FC } from "react";
 export const LsBookMarks:FC= () => {
 
   return (
-    <div></div>
+    <div>
+      
+    </div>
   )
 
 }

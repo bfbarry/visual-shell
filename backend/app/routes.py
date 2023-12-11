@@ -43,3 +43,18 @@ def handle():
     return cli_custom.handle(data.get('handler_path'), data.get('file_path'))
 
 
+@api.route('/get_bookmarks', methods=['GET'])
+def get_bookmarks():
+    return cli_custom.get_bookmark_objects()
+
+
+@api.route('/save_bookmark', methods=['POST'])
+def save_bookmark():
+    data = request.get_json() or {}
+    return cli_custom.save_dir_bookmark(data.get('alias'), data.get('path'))
+
+
+@api.route('/delete_bookmark', methods=['DELETE'])
+def delete_bookmark():
+    data = request.get_json() or {}
+    return cli_custom.delete_bookmark(data.get('alias'))

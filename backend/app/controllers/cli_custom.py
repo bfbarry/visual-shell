@@ -6,13 +6,15 @@ from flask import jsonify
 import json
 import re
 
-
-handler_config_path = join(dirname(dirname(dirname(realpath(__file__)))), 'config', 'handlers.json') # TODO: this could bloat
+config_path = join(dirname(dirname(dirname(realpath(__file__)))), 'config')
+bookmark_config_path = join(config_path, 'bookmarks.json')
+handler_config_path = join(config_path, 'handlers.json') # TODO: this could bloat
 handlers_root = join(dirname(dirname(dirname(realpath(__file__)))), 'cli', 'handlers')
 _BASE_EXT = ['h5', 'csv', 'json']
 with open(handler_config_path, 'r') as f:
     handlers = json.load(f)
 
+# TODO these should be in function get_handlers
 # insert base handlers
 base_keys = {f'*{e}' for e in _BASE_EXT}
 default_handlers_missing = not base_keys.issubset(set(handlers.keys()))
@@ -59,6 +61,45 @@ def handle(handler_path, file_path) -> json:
 
 def attach_handler(fpath):
     ...
+
+
+def get_bookmarks():
+    with open(bookmark_config_path, 'r') as f:
+        bookmarks = json.load(f)
+    
+    return bookmarks
+
+
+def get_bookmark_objects():
+    bookmarks = get_bookmarks()
+    bookmark_objects = [{'alias': k, 'path': v} for k,v in bookmarks.items()]
+    return bookmark_objects
+
+# TODO error handling with these functions
+def save_dir_bookmark(alias, path):
+    bookmarks = get_bookmarks()
+    if alias in bookmarks.keys():
+        return {'error': 'alias already in use'}
+    if path in bookmarks.values():
+        return {'error': 'bookmark to this path already in use'}
+    new_bookmark = {
+        alias: path
+    }
+    with open(bookmark_config_path, 'a') as f:
+        json.dump(new_bookmark, f, indent=4)
+
+
+def delete_bookmark(alias):
+    # Read the existing data from the file
+    bookmarks = get_bookmarks()
+
+    if alias in bookmarks:
+        del bookmarks[alias]
+    else:
+        return {'error': f'could not find bookmark {alias}'}
+    
+    with open(bookmark_config_path, 'w') as f:
+        json.dump(bookmarks, f, indent=4)
 
 
 def list_handlers() -> list:

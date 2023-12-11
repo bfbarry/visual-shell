@@ -1,4 +1,6 @@
 import { useLsContext } from "../../hooks/useLsContext";
+import { useBookmarksContext } from "../../hooks/useBookmarksContext";
+import { useSaveBookmark } from "../../hooks/useSaveBookmark";
 import { FC } from "react";
 import { ReactComponent as BookmarkIcon} from '../../assets/svg/bookmark-svgrepo-com.svg';
 
