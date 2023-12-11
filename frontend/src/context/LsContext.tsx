@@ -17,7 +17,7 @@ type contextAction = {
 export const lsReducer = (state: contextState, action:contextAction) => {
 	switch (action.type) {
 		case 'SET_LS':
-			localStorage.setItem('ls', JSON.stringify(action.payload));
+			// localStorage.setItem('ls', JSON.stringify(action.payload));
 			return {
 				ls: action.payload
 			}

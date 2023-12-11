@@ -1,3 +1,7 @@
-{"hey": "you", 
-"/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.csv": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/base_handler_csv.py", 
-"/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.h5": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/base_handler_h5.py"}
+{
+    "*.h5": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/default_handler_h5.py",
+    "*.csv": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/default_handler_csv.py",
+    "*.txt": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/default_handler_txt.py",
+    "*.json": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/default_handler_json.py",
+    "*.log": "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/default_handler_txt.py"
+}

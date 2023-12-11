@@ -3,7 +3,7 @@ import { useLsContext } from "./useLsContext";
 
 export const useGetLs = () => {
   const [error, setError] = useState<boolean|null>(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [lsIsLoading, setIsLoading] = useState(false);
   const { dispatch } = useLsContext();
 
   const getLs = async() => {
@@ -14,10 +14,12 @@ export const useGetLs = () => {
     if (res.ok) {
       dispatch({type: 'SET_LS', payload: json});
       setIsLoading(false);
+      console.log('ls is set!')
     } else {
       setIsLoading(false);
       setError(json.error); // TODO set this error?
+      console.log('err')
     }
   }
-  return { getLs, isLoading, error}
+  return { getLs, lsIsLoading, error}
 }

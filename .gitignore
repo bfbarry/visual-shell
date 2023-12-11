@@ -1,3 +1,6 @@
 node_modules
 __pycache__
 venv
+# test data
+*.h5
+*.csv

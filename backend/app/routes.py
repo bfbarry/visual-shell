@@ -9,6 +9,8 @@ def ls():
         data = request.get_json()
     except:
         data = {}
+    if not data:
+        data = {}
     return cli.ls(data.get('target'))
 
 
@@ -38,6 +40,6 @@ def tty():
 @api.route('/handle', methods=['POST'])
 def handle():
     data = request.get_json() or {}
-    return cli_custom.handle(data.get('target'))
+    return cli_custom.handle(data.get('handler_path'), data.get('file_path'))
 
 

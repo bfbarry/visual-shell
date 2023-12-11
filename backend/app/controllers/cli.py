@@ -4,6 +4,7 @@ from os.path import join, dirname, realpath
 from flask import jsonify
 import json
 from .helpers import run_shell_no_stdout, run_shell_stdout, is_text, sub_tilde
+from .cli_custom import get_handler
 import logging
 
 
@@ -25,24 +26,24 @@ def ls(path=None):
                 'isdir' : True,
                 'is_text': False,
                 'path'  : path,
-                'has_handler': False},
+                'handler': ''},
                 {
                 'name'  : '..', 
                 'isdir' : True,
                 'is_text': False,
                 'path'  : '/'.join(path.split('/')[:-1]),
-                'has_handler': False
+                'handler': ''
                 },
                 ]
-
     for e in os.scandir(sub_tilde(path)):
         entity_path = join(path, e.name)
+        handler_path = get_handler(entity_path)
         contents.append({
                 'name'  : e.name,
                 'isdir' : e.is_dir(),
-                'is_text': is_text(e.name),
+                'is_text': False if handler_path else is_text(entity_path),
                 'path'  : entity_path, 
-                'has_handler': False if e.is_dir() or is_text(e.name) else True
+                'handler': handler_path
                 })
     return jsonify(contents)
 
@@ -57,7 +58,6 @@ def cd(target):
         dir_text = target
     else:
         dir_text = join(app.config['PWD'], target)
-
     if not os.path.exists(dir_text):
         return jsonify({'err': f'cd: no such file or directory: {target}'})
     app.config['PWD'] = dir_text

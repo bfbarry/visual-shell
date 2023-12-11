@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react' // might need React 
 import { useLsContext } from '../hooks/useLsContext';
-
+import { useGetLs } from '../hooks/useGetLs';
+import { LsCurrPath } from './ls/LsCurrPath';
 interface SearchBarProps {
   searchTerm: string;
   setSearchTerm: (e: string) => void;
@@ -20,6 +21,7 @@ const SearchBar:FC<SearchBarProps> = (props) => {
 }
 
 
+
 const LsWindow:FC = () => {
   /*  constantly shows ls of current dir
   ls: list of objs like {name, file_type, path}
@@ -29,20 +31,20 @@ const LsWindow:FC = () => {
   */
   const [searchTerm, setSearchTerm] = useState(''); // must be filtered in jsx, otherwise setLs doesn't work in a function!
   const { ls, dispatch } = useLsContext();
+  const [currPath, setCurrPath] = useState('');
+  const { getLs, lsIsLoading } = useGetLs();
   // TODO would rather use null so you have full text, but doesn't work
   // const container_bg = '#242424'
   
   useEffect(() => {
-    const fetchCLI = async () => {
-      const res = await fetch('api/cli/ls')
-      const json = await res.json()
-      if (res.ok) {
-        dispatch({type: 'SET_LS', payload: json});
-      }
+    getLs()
+  }, [])
+
+  useEffect(() => {
+    if (ls.length) {
+      setCurrPath(ls[0].path)
     }
-    fetchCLI()
-    // console.log(ls)
-  }, [dispatch])
+  }, [ls])
 
   const cd_click = async(txt: string) => {
     const res = await fetch('api/cli/cd', {
@@ -82,10 +84,10 @@ const LsWindow:FC = () => {
     }
   }
 
-  const handler_click = async(txt: string) => {
+  const handler_click = async(handler_path: string, file_path: string) => {
     const res = await fetch('api/cli/handle', {
       method: 'POST',
-      body: JSON.stringify({target: txt}),
+      body: JSON.stringify({handler_path, file_path}),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -154,11 +156,14 @@ const LsWindow:FC = () => {
     )
   }
 
+  
+
   return (
     <>
     {ls.length &&
       <>
-      <span className='text-white'>{ls[0].path}</span>
+      <LsCurrPath currPath={currPath} setCurrPath={setCurrPath}/>
+      {/* <span className='text-white'>{ls[0].path}</span> */}
       <LsContainer>
         {ls.slice(1).filter(i => i.name.includes(searchTerm) )
                  .map(i => {
@@ -171,7 +176,7 @@ const LsWindow:FC = () => {
                i.is_text ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
                             <LsTextItem text={i.name} ftypecss="text-green-500"/> 
                           </span> :
-               i.has_handler? <span className='cursor-pointer' onClick={() => handler_click(i.path)}> 
+               i.handler? <span className='cursor-pointer' onClick={() => handler_click(i.handler, i.path)}> 
                             <LsTextItem text={i.name} ftypecss="text-blue-500"/> 
                           </span> :
                           <span> 
