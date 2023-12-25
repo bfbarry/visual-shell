@@ -3,6 +3,7 @@
 built on node and react
 
 # TODO
+- FS events for config files
 - create new file button
 - h5, csv handler
 - right click context menu

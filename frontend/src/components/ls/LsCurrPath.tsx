@@ -1,8 +1,10 @@
 import { useLsContext } from "../../hooks/useLsContext";
 import { useBookmarksContext } from "../../hooks/useBookmarksContext";
 import { useSaveBookmark } from "../../hooks/useSaveBookmark";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { ReactComponent as BookmarkIcon} from '../../assets/svg/bookmark-svgrepo-com.svg';
+import { AddBookmarkPrompt } from "./AddBookmarkPrompt";
+
 
 interface LsCurrPathProps {
     currPath: string;
@@ -10,6 +12,7 @@ interface LsCurrPathProps {
   }
 export const LsCurrPath:FC<LsCurrPathProps> = ({currPath, setCurrPath}) => {
   const { dispatch } = useLsContext();
+  const [showBookmarkPrompt, setShowBookmarkPrompt] = useState(false);
 
   const cd_enter = async(txt: string) => {
     const res = await fetch('api/cli/cd', {
@@ -31,7 +34,7 @@ export const LsCurrPath:FC<LsCurrPathProps> = ({currPath, setCurrPath}) => {
   };
 
   const bookmarkClick = () => {
-      console.log('hey')
+    setShowBookmarkPrompt(!showBookmarkPrompt)
   } 
 
   return (
@@ -48,6 +51,10 @@ export const LsCurrPath:FC<LsCurrPathProps> = ({currPath, setCurrPath}) => {
       <button className="flex inline-flex justify-center" onClick={bookmarkClick}>
           <BookmarkIcon className="fill-zinc-100 w-[25px] h-auto"/>
       </button>
+      {
+        showBookmarkPrompt &&
+          <AddBookmarkPrompt currPath={ currPath } hideForm={() => setShowBookmarkPrompt(false)}/>
+      }
     </div>
   )
 }
