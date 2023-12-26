@@ -73,20 +73,22 @@ def get_bookmarks():
 def get_bookmark_objects():
     bookmarks = get_bookmarks()
     bookmark_objects = [{'alias': k, 'path': v} for k,v in bookmarks.items()]
-    return bookmark_objects
+    return jsonify(bookmark_objects)
 
 # TODO error handling with these functions
-def save_dir_bookmark(alias, path):
+def save_dir_bookmark(alias, path) -> None:
     bookmarks = get_bookmarks()
     if alias in bookmarks.keys():
-        return {'error': 'alias already in use'}
+        return jsonify({'error': 'alias already in use'}), 406
     if path in bookmarks.values():
-        return {'error': 'bookmark to this path already in use'}
+        return jsonify({'error': 'bookmark to this path already in use'}), 406
     new_bookmark = {
         alias: path
     }
-    with open(bookmark_config_path, 'a') as f:
-        json.dump(new_bookmark, f, indent=4)
+    bookmarks = {**bookmarks, **new_bookmark}
+    with open(bookmark_config_path, 'w') as f:
+        json.dump(bookmarks, f, indent=4)
+    return '', 201
 
 
 def delete_bookmark(alias):

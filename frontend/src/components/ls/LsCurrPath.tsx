@@ -1,6 +1,4 @@
 import { useLsContext } from "../../hooks/useLsContext";
-import { useBookmarksContext } from "../../hooks/useBookmarksContext";
-import { useSaveBookmark } from "../../hooks/useSaveBookmark";
 import { FC, useState } from "react";
 import { ReactComponent as BookmarkIcon} from '../../assets/svg/bookmark-svgrepo-com.svg';
 import { AddBookmarkPrompt } from "./AddBookmarkPrompt";
@@ -38,12 +36,12 @@ export const LsCurrPath:FC<LsCurrPathProps> = ({currPath, setCurrPath}) => {
   } 
 
   return (
-    <div>
+    <div className="flex flex-row align-center">
       <form className="flex inline-flex justify-center"
       onSubmit={(e) => {
                             e.preventDefault();
                             cd_enter(currPath)}}>
-        <input className='bg-[black] text-white caret-white w-[500px]' 
+        <input className='bg-indigo-950 text-white caret-white w-[500px]' 
               type="text"
               value={currPath} 
               onChange={e => setCurrPath(e.target.value)}/>

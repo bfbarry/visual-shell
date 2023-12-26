@@ -1,17 +1,32 @@
 import { FC, useState } from "react";
 import { Modal } from "../common/Modal";
 import {ReactComponent as DownPointer } from '../../assets/svg/down-arrow-5-svgrepo-com.svg';
+import { useSetBookmarks } from "../../hooks/useSetBookmarks";
+
 
 interface AddBookmarkPromptProps {
   currPath: string;
   hideForm: () => void;
 }
 export const AddBookmarkPrompt:FC<AddBookmarkPromptProps> = ({ currPath, hideForm }) => {
-
   const [ bookmarkPath, setBookmarkPath ] = useState(currPath);
   const [ bookmarkName, setBookmarkName ] = useState('');
+  const { setBookmarks } = useSetBookmarks();
+
   const handleSubmit = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();
+    const res = await fetch ('api/cli/save_bookmark', {
+      method: 'POST',
+      body: JSON.stringify({alias: bookmarkName, path: bookmarkPath}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok ) {
+        console.log('error with ')
+    }
+    setBookmarks();
     hideForm();
 
   }
