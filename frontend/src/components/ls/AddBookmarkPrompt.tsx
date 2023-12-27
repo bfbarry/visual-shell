@@ -24,7 +24,7 @@ export const AddBookmarkPrompt:FC<AddBookmarkPromptProps> = ({ currPath, hideFor
     });
 
     if (!res.ok ) {
-        console.log('error with ')
+        console.log('error with saving bookmark')
     }
     setBookmarks();
     hideForm();

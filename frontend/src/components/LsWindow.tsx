@@ -2,6 +2,9 @@ import React, { FC, useEffect, useState } from 'react' // might need React
 import { useLsContext } from '../hooks/useLsContext';
 import { useSetLs } from '../hooks/useSetLs';
 import { LsCurrPath } from './ls/LsCurrPath';
+import { BookmarkTab } from '../components/ls/BookmarkTab'
+
+
 interface SearchBarProps {
   searchTerm: string;
   setSearchTerm: (e: string) => void;
@@ -11,7 +14,7 @@ const SearchBar:FC<SearchBarProps> = (props) => {
   // This is a high level component because otherwise it loses focus on each rerender (composition vs inheritance!)
   
   return (
-    <div className='flex inline-flex justify-center p-[10px] bg-[#242424]'>
+    <div className='p-[10px] bg-[#242424] w-[800px] rounded-b-md'>
       <input className='bg-[black] text-white caret-white' 
             type="text"
             value={props.searchTerm} 
@@ -19,7 +22,6 @@ const SearchBar:FC<SearchBarProps> = (props) => {
     </div>
   )
 }
-
 
 
 const LsWindow:FC = () => {
@@ -119,7 +121,7 @@ const LsWindow:FC = () => {
   }
   const LsContainer:FC<LsContainerProps> = ({children}) => {
     return (
-      <div className='rounded-sm flex flex-wrap bg-[#242424] h-[600px] w-[800px] m-1 gap-[15px] content-start p-[10px]'>
+      <div className='rounded-t-md flex flex-wrap bg-[#242424] h-[600px] w-[800px] gap-[15px] content-start p-[10px] overflow-scroll'>
         {children}
       </div>
     )
@@ -156,42 +158,40 @@ const LsWindow:FC = () => {
     )
   }
 
-  
-
   return (
     <>
     {ls.length &&
-      <>
-      <LsCurrPath currPath={currPath} setCurrPath={setCurrPath}/>
-      {/* <span className='text-white'>{ls[0].path}</span> */}
-      <LsContainer>
-        {ls.slice(1).filter(i => i.name.includes(searchTerm) )
-                 .map(i => {
-          const key = i.name+i.isdir.toString()
-          return (
-            <NameContainer key={key}>
-              {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > 
-                            <LsTextItem text={i.name} ftypecss="text-white underline"/> 
-                          </span> :
-               i.is_text ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
-                            <LsTextItem text={i.name} ftypecss="text-green-500"/> 
-                          </span> :
-               i.handler? <span className='cursor-pointer' onClick={() => handler_click(i.handler, i.path)}> 
-                            <LsTextItem text={i.name} ftypecss="text-blue-500"/> 
-                          </span> :
-                          <span> 
-                            <LsTextItem text={i.name} ftypecss="text-black"/>
-                          </span>
+      <div className="m-1">
+        <LsCurrPath currPath={currPath} setCurrPath={setCurrPath}/>
+        <LsContainer>
+          {ls.slice(1).filter(i => i.name.includes(searchTerm) )
+                  .map(i => {
+            const key = i.name+i.isdir.toString()
+            return (
+              <NameContainer key={key}>
+                {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > 
+                              <LsTextItem text={i.name} ftypecss="text-white underline"/> 
+                            </span> :
+                i.is_text ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
+                              <LsTextItem text={i.name} ftypecss="text-green-500"/> 
+                            </span> :
+                i.handler? <span className='cursor-pointer' onClick={() => handler_click(i.handler, i.path)}> 
+                              <LsTextItem text={i.name} ftypecss="text-blue-500"/> 
+                            </span> :
+                            <span> 
+                              <LsTextItem text={i.name} ftypecss="text-black"/>
+                            </span>
+                }
+              </NameContainer>
+              )
               }
-            </NameContainer>
             )
             }
-          )
-          }
-      </LsContainer>
-      </>
+        </LsContainer>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} key="searchbar"/>
+      </div>
     }
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+    <BookmarkTab/>
     </>
   )
 }
