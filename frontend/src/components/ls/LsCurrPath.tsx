@@ -1,7 +1,7 @@
-import { useLsContext } from "../../hooks/useLsContext";
 import { FC, useState } from "react";
 import { ReactComponent as BookmarkIcon} from '../../assets/svg/bookmark-svgrepo-com.svg';
 import { AddBookmarkPrompt } from "./AddBookmarkPrompt";
+import { useCd } from "../../hooks/useCd";
 
 
 interface LsCurrPathProps {
@@ -9,27 +9,8 @@ interface LsCurrPathProps {
     setCurrPath: (e: string) => void;
   }
 export const LsCurrPath:FC<LsCurrPathProps> = ({currPath, setCurrPath}) => {
-  const { dispatch } = useLsContext();
   const [showBookmarkPrompt, setShowBookmarkPrompt] = useState(false);
-
-  const cd_enter = async(txt: string) => {
-    const res = await fetch('api/cli/cd', {
-      method: 'POST',
-      body: JSON.stringify({target: txt}),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const json = await res.json()
-    if (!res.ok) {
-      //set error here
-      console.log('error fetch api/cli/cd')
-    }
-    if (res.ok) {
-      //do dispatch
-      dispatch({type: 'SET_LS', payload: json})
-    }
-  };
+  const { cd } = useCd();
 
   const bookmarkClick = () => {
     setShowBookmarkPrompt(!showBookmarkPrompt)
@@ -40,8 +21,8 @@ export const LsCurrPath:FC<LsCurrPathProps> = ({currPath, setCurrPath}) => {
       <form className="flex inline-flex justify-center"
       onSubmit={(e) => {
                             e.preventDefault();
-                            cd_enter(currPath)}}>
-        <input className='bg-indigo-950 text-white caret-white w-[500px]' 
+                            cd(currPath)}}>
+        <input className='bg-indigo-950 text-white caret-white w-[775px]' 
               type="text"
               value={currPath} 
               onChange={e => setCurrPath(e.target.value)}/>

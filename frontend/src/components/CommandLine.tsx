@@ -33,10 +33,10 @@ const CommandLine:FC<CommandLineProps> = (props) => {
   }
 
   return (
-    <div className='flex inline-flex justify-center p-[10px] bg-[#242424] ml-1.5'>
+    <div className='rounded-md flex inline-flex p-[10px] w-[800px] bg-[#242424] m-1'>
       <form onSubmit={handleSubmit}>
         <span className='text-white'>$ </span>
-        <input className='bg-[black] text-white caret-white w-[500px]' 
+        <input className='bg-[black] text-white caret-white w-[700px]' 
               type="text"
               value={props.text} 
               onChange={e => props.setText(e.target.value)}/>

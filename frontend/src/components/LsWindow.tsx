@@ -121,7 +121,7 @@ const LsWindow:FC = () => {
   }
   const LsContainer:FC<LsContainerProps> = ({children}) => {
     return (
-      <div className='rounded-t-md flex flex-wrap bg-[#242424] h-[600px] w-[800px] gap-[15px] content-start p-[10px] overflow-scroll'>
+      <div className='rounded-t-md flex flex-wrap bg-[#242424] h-[600px] w-[800px] gap-[15px] content-start overflow-auto p-[10px] '>
         {children}
       </div>
     )
@@ -159,7 +159,7 @@ const LsWindow:FC = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-row">
     {ls.length &&
       <div className="m-1">
         <LsCurrPath currPath={currPath} setCurrPath={setCurrPath}/>
@@ -192,7 +192,7 @@ const LsWindow:FC = () => {
       </div>
     }
     <BookmarkTab/>
-    </>
+    </div>
   )
 }
 
