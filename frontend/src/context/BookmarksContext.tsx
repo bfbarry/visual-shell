@@ -22,7 +22,7 @@ export const bookmarksReducer = (state: contextState, action:contextAction) => {
 			}
         case 'DELETE_BOOKMARK':
             return {
-                bookmarks: state.bookmarks.filter((b) => b.alias != action.payload.id)
+                bookmarks: state.bookmarks.filter((b) => b.alias != action.payload.alias)
             }
 		default:
 			return state

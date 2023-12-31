@@ -1,0 +1,16 @@
+.bookmarks-tab {
+    background: linear-gradient(to bottom, #bda126, #bfb06b);
+    width: 100px
+}
+
+.bookmarks-tab:hover {
+    background: linear-gradient(to bottom, #8d781c, #897e4c);
+}
+
+.bookmark-menu-item {
+    color: white;
+    background-color: #292828;
+}
+.bookmark-menu-item:hover {
+    background-color: #4a4848;
+}

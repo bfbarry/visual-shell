@@ -88,7 +88,7 @@ def save_dir_bookmark(alias, path) -> None:
     bookmarks = {**bookmarks, **new_bookmark}
     with open(bookmark_config_path, 'w') as f:
         json.dump(bookmarks, f, indent=4)
-    return '', 201
+    return jsonify({}), 201
 
 
 def delete_bookmark(alias):
@@ -102,6 +102,7 @@ def delete_bookmark(alias):
     
     with open(bookmark_config_path, 'w') as f:
         json.dump(bookmarks, f, indent=4)
+    return jsonify({}), 200
 
 
 def list_handlers() -> list:
