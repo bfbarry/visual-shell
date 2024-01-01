@@ -1,8 +1,11 @@
 import React, { FC, useEffect, useState } from 'react' // might need React 
-import { useLsContext } from '../hooks/useLsContext';
-import { useSetLs } from '../hooks/useSetLs';
-import { LsCurrPath } from './ls/LsCurrPath';
-import { BookmarkTab } from '../components/ls/BookmarkTab'
+import { useLsContext } from '../../hooks/useLsContext';
+import { useSetLs } from '../../hooks/useSetLs';
+import { LsCurrPath } from './LsCurrPath';
+import { BookmarkTab } from './BookmarkTab'
+import { LsTextItem } from './LsTextItem';
+import { getBaseNameWithoutExtension } from '../../utils/getBaseNameWithoutExtension';
+import { Handler } from '../handlers/Handler';
 
 
 interface SearchBarProps {
@@ -25,7 +28,7 @@ const SearchBar:FC<SearchBarProps> = (props) => {
 
 
 const LsWindow:FC = () => {
-  /*  constantly shows ls of current dir
+  /*  shows ls of current dir
   ls: list of objs like {name, file_type, path}
   if file_type = dir, is be clickable to cd into it
   TODO
@@ -35,6 +38,12 @@ const LsWindow:FC = () => {
   const { ls, dispatch } = useLsContext();
   const [currPath, setCurrPath] = useState('');
   const { setLs, lsIsLoading } = useSetLs();
+  // const [ menuPosition, setMenuPosition] = useState({x:0, y:0});
+  // const [ showMenu, setShowMenu ] = useState(false);
+  // const [ currMenuPath, setCurrMenuPath ] = useState('');
+  const [ handlerType, setHandlerType ] = useState('');
+  const [ showHandler, setShowHandler ] = useState(false);
+  const [ handlerData, setHandlerData ] = useState([]);
   // TODO would rather use null so you have full text, but doesn't work
   // const container_bg = '#242424'
   
@@ -101,7 +110,10 @@ const LsWindow:FC = () => {
     }
     if (res.ok) {
       //do dispatch
-      console.log(json)
+      const handlerName = getBaseNameWithoutExtension(handler_path);
+      setHandlerType(handlerName)
+      setHandlerData(json);
+      setShowHandler(true);
     }
   }
 
@@ -111,7 +123,7 @@ const LsWindow:FC = () => {
   const NameContainer:FC<NameContainerProps> = ({children}) => {
     // TODO this should be able to adjust to  resize
     return(
-    <div className='inline rounded-md bg-[#414141] flex pl-1 h-[40px] basis-auto'>
+    <div className='inline rounded-md bg-[#414141] flex pl-1 p-[5px] basis-auto'>
       { children }
     </div>)
   }
@@ -127,37 +139,6 @@ const LsWindow:FC = () => {
     )
   }
 
-  interface LsTextItemProps{
-    text: string;
-    ftypecss: string;
-  }
-  const LsTextItem:FC<LsTextItemProps> = ({text, ftypecss}) => {
-    // set highlight on search term
-    const searchTermCSS = 'text-orange-600'
-    const split = text.split(searchTerm)
-    const terms_inserted = []
-    for (let i=0; i<split.length; i++) {
-        // insert non searchTerm
-        if (split[i] !== '') {
-            terms_inserted.push({text: split[i], css: ftypecss})
-        }
-        // insert searchTerm
-        if (searchTerm !== '' && i !== split.length-1) {
-            terms_inserted.push({text: searchTerm, css: searchTermCSS})
-        }
-    } 
-    return (
-      <>
-      {terms_inserted.map((i, ix) => {
-        const css = i.css
-        return (
-          <span key={ix} className={css}>{i.text}</span>
-        )
-      })}
-      </>
-    )
-  }
-
   return (
     <div className="flex flex-row">
     {ls.length &&
@@ -170,16 +151,16 @@ const LsWindow:FC = () => {
             return (
               <NameContainer key={key}>
                 {i.isdir  ? <span className='cursor-pointer' onClick={() => cd_click(i.path)}  > 
-                              <LsTextItem text={i.name} ftypecss="text-white underline"/> 
+                              <LsTextItem text={i.name} ftypecss="text-white underline" searchTerm={searchTerm}/> 
                             </span> :
                 i.is_text ? <span className='cursor-pointer' onClick={() => code_click(i.path)}> 
-                              <LsTextItem text={i.name} ftypecss="text-green-500"/> 
+                              <LsTextItem text={i.name} ftypecss="text-green-500" searchTerm={searchTerm}/> 
                             </span> :
                 i.handler? <span className='cursor-pointer' onClick={() => handler_click(i.handler, i.path)}> 
-                              <LsTextItem text={i.name} ftypecss="text-blue-500"/> 
+                              <LsTextItem text={i.name} ftypecss="text-[#8803fc]" searchTerm={searchTerm}/> 
                             </span> :
                             <span> 
-                              <LsTextItem text={i.name} ftypecss="text-black"/>
+                              <LsTextItem text={i.name} ftypecss="text-black" searchTerm={searchTerm}/>
                             </span>
                 }
               </NameContainer>
@@ -192,6 +173,10 @@ const LsWindow:FC = () => {
       </div>
     }
     <BookmarkTab/>
+    {
+      showHandler && 
+      <Handler handlerName={handlerType} data={handlerData} hideSelf={() => setShowHandler(false)}/>
+    }
     </div>
   )
 }

@@ -1,0 +1,65 @@
+{
+    "datasets": [],
+    "groups": [
+        {
+            "name": "data",
+            "attrs": [
+                {
+                    "name": "notes",
+                    "value": "here are some notes on this group."
+                }
+            ],
+            "datasets": [
+                {
+                    "name": "stats",
+                    "shape": [
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": [
+                        {
+                            "name": "method",
+                            "value": "pearson r^2"
+                        }
+                    ]
+                },
+                {
+                    "name": "values",
+                    "shape": [
+                        5,
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": []
+                }
+            ],
+            "groups": [
+                {
+                    "name": "nested_data_group",
+                    "attrs": [],
+                    "datasets": [
+                        {
+                            "name": "values2",
+                            "shape": [
+                                10
+                            ],
+                            "dtype": "float64",
+                            "attrs": []
+                        }
+                    ],
+                    "groups": []
+                }
+            ]
+        }
+    ],
+    "attrs": [
+        {
+            "name": "date",
+            "value": "2023-12-08 11:26:26.621577"
+        },
+        {
+            "name": "version",
+            "value": "2.4"
+        }
+    ]
+}

@@ -2,14 +2,13 @@ import { FC } from "react"
 import { Backdrop } from "../common/Backdrop";
 import '../../css/ls.css';
 
-interface BookmarkMenuProps {
+interface LsWindowMenuProps {
   position: {x: number;
              y: number;
             };
-  deleteBookmark: () => void;
   hideSelf: () => void;
 }
-export const BookmarkMenu:FC<BookmarkMenuProps> = ({ position, deleteBookmark, hideSelf }) => {
+export const LsWindowMenu:FC<LsWindowMenuProps> = ({ position, hideSelf }) => {
   const menuCss: React.CSSProperties = { position: 'absolute',
                     top: `${position.y}px`,
                     left: `${position.x}px`,
@@ -20,15 +19,26 @@ export const BookmarkMenu:FC<BookmarkMenuProps> = ({ position, deleteBookmark, h
                     borderRadius: '6px',
                   }
 
+  const attachHandler = () => {
+    // TODO
+  }
+
+  const menuActions = {
+    'attach handler': attachHandler
+  }
   return (
     <Backdrop hideSelf={hideSelf} menuType="CONTEXT_MENU">
       <div style={menuCss}>
         <ol>
-          <li className='menu-item'>
-            <button onClick={deleteBookmark}>
-              delete
-            </button>
-          </li>
+          {Object.entries(menuActions).map(([k, v], ix) => (
+              <li className='menu-item' key={ix}>
+                <button onClick={v}>
+                  {k}
+                </button>
+              </li>
+              )
+            )
+          }
         </ol>
       </div>
     </Backdrop>

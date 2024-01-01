@@ -28,11 +28,12 @@ if default_handlers_missing:
 
 
 def get_handler(fpath):
+    # TODO: default handler not wokring
     handler_path = handlers.get(fpath)
     if not handler_path:
         # find default handler
         fname = basename(fpath)
-        period_ixs = [m.start() for m in re.finditer('.', fname)]
+        period_ixs = [i for i, s in enumerate(fname) if s == '.']
         try:
             last_period_ix = period_ixs[-1]
             file_ext = fname[last_period_ix+1:]
@@ -112,5 +113,5 @@ def list_handlers() -> list:
 
 
 if __name__ == '__main__':
-    # print(handle('/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.csv'))
+    print(get_handler('/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.csv'))
     ...

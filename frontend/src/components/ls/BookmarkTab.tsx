@@ -46,6 +46,7 @@ export const BookmarkTab:FC = () => {
     setShowMenu(true);
   }
 
+  // TODO this is rendering too much
   return (
     <div className="rounded-md bg-[#242424] w-[100px] overflow-auto mt-[29px] mb-1">
       <ol>

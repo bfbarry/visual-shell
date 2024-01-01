@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import LsWindow  from './components/LsWindow'
+import LsWindow  from './components/ls/LsWindow'
 import CommandLine from './components/CommandLine'
 
 

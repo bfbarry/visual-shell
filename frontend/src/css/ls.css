@@ -7,10 +7,10 @@
     background: linear-gradient(to bottom, #8d781c, #897e4c);
 }
 
-.bookmark-menu-item {
+.menu-item {
     color: white;
     background-color: #292828;
 }
-.bookmark-menu-item:hover {
+.menu-item:hover {
     background-color: #4a4848;
 }
