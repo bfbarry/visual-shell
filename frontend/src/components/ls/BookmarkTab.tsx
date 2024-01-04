@@ -52,7 +52,7 @@ export const BookmarkTab:FC = () => {
       <ol>
       {bookmarks.length ?
         bookmarks.map((bookmark, ix) => {
-          console.log('bookmark tab loaded an item')
+          // console.log('bookmark tab loaded an item')
           return (
             <li key={bookmark.alias} onContextMenu={(e) => onBookmarkMenu(e, bookmark.alias)}>
               <button className="bookmarks-tab"

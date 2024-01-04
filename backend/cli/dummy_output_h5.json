@@ -2,7 +2,7 @@
     "datasets": [],
     "groups": [
         {
-            "name": "data",
+            "name": "data1",
             "attrs": [
                 {
                     "name": "notes",
@@ -50,12 +50,92 @@
                     "groups": []
                 }
             ]
+        },
+        {
+            "name": "data2",
+            "attrs": [],
+            "datasets": [
+                {
+                    "name": "values",
+                    "shape": [
+                        5,
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": []
+                }
+            ],
+            "groups": []
+        },
+        {
+            "name": "data3",
+            "attrs": [],
+            "datasets": [
+                {
+                    "name": "values",
+                    "shape": [
+                        5,
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": []
+                }
+            ],
+            "groups": []
+        },
+        {
+            "name": "data4",
+            "attrs": [],
+            "datasets": [
+                {
+                    "name": "values",
+                    "shape": [
+                        5,
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": []
+                }
+            ],
+            "groups": []
+        },
+        {
+            "name": "data5",
+            "attrs": [],
+            "datasets": [
+                {
+                    "name": "values",
+                    "shape": [
+                        5,
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": []
+                }
+            ],
+            "groups": []
+        },
+        {
+            "name": "data6",
+            "attrs": [],
+            "datasets": [
+                {
+                    "name": "values",
+                    "shape": [
+                        5,
+                        5
+                    ],
+                    "dtype": "float64",
+                    "attrs": []
+                }
+            ],
+            "groups": []
         }
     ],
     "attrs": [
         {
             "name": "date",
-            "value": "2023-12-08 11:26:26.621577"
+            "value": "2024-01-03 20:26:52.996297"
         },
         {
             "name": "version",

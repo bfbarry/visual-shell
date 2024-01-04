@@ -3,7 +3,8 @@ import { FC, useEffect, useRef, useState } from "react";
 
 interface GroupState {
   groups: any[];
-  groupIx: number;
+  datasets: any[];
+  attrs: any[];
 }
 interface H5HandlerProps {
   data: any;
@@ -11,53 +12,58 @@ interface H5HandlerProps {
 export const H5Handler:FC<H5HandlerProps> = ({ data }) => {
   let css: React.CSSProperties = {
     width: '400px',
-    height: '400px',
+    height: '600px',
     color: 'black',
-    background: 'gray'
+    background: 'gray',
+    overflow: 'auto'
   };
-  const [ fullGroupName, setFullGroupName ] = useState('');
+  const [ fullGroupName, setFullGroupName ] = useState('/');
   const [ groups, setGroups ] = useState(data.groups);
-  const [ groupIx, setGroupIx ] = useState(0);
+  const [datasets, setDatasets ] = useState<any[]>([]);
+  const [attrs, setAttrs ] = useState<any[]>([]);
   const groupsStack = useRef<GroupState[]>([]);
-  
-  useEffect(() => {
-    if (data.groups.length) {
-        setFullGroupName(`/${data.groups[0].name}`)
-    }
-  }, [])
 
-  const nextGroupLayer = (e: React.ChangeEvent<any>) => {
+  const selectGroup = (e: React.ChangeEvent<any>, ix: number) => {
     e.preventDefault()
-    if (groups[groupIx].groups) {
-      groupsStack.current.push({groups, groupIx})
-      const newGroups = groups[groupIx].groups;
-      const newGroupName = newGroups[0].name;
+    if (groups[ix].groups) {
+      groupsStack.current.push({groups, datasets, attrs})
+      const newGroups = groups[ix].groups;
+      setDatasets(groups[ix].datasets);
+      setAttrs(groups[ix].attrs);
       setGroups(newGroups)
-      setGroupIx(0)
-      setFullGroupName(fullGroupName+'/'+ newGroupName)
+      let newName = '';
+      if (fullGroupName == '/') {
+        newName = fullGroupName + groups[ix].name
+      }
+      else {
+        newName = fullGroupName +'/' + groups[ix].name
+      }
+      setFullGroupName(newName)
     }
   }
 
   const prevGroupLayer = (e: React.ChangeEvent<any>) => {
-    e.preventDefault()
+    e.preventDefault();
     const prevGroupState = groupsStack.current.pop();
+    // TODO RESET DATASETS< ATTRS
     if (prevGroupState) {
-      setGroups(prevGroupState.groups)
-      setGroupIx(prevGroupState.groupIx)
-      setFullGroupName(fullGroupName.split('/').slice(0,-1).join('/'))
+      setGroups(prevGroupState.groups);
+      setDatasets(prevGroupState.datasets);
+      setAttrs(prevGroupState.attrs);
+      let name = fullGroupName.split('/').slice(0,-1).join('/')
+      setFullGroupName(name);
+    }
+    if (! groupsStack.current.length) {
+      // back to root
+      setFullGroupName('/');
+      setDatasets([]);
+      setAttrs([]);
     }
   }
 
-  const nextGroupSibling = (e: React.ChangeEvent<any>) => {
-    e.preventDefault()
-    if (groups.length - groupIx > 1) {
-      setGroupIx(groupIx+1)
-    }
-  }
   // TODO
   // show list of groups, when click on one group show menu with dataset info
   // onClick: update groupIx, update base only of fullGroupPath
-  console.log('rendered h5handler!')
   return (
     <div style={css}>
       <h1><b>{fullGroupName}</b></h1>
@@ -65,10 +71,10 @@ export const H5Handler:FC<H5HandlerProps> = ({ data }) => {
       <div style={{maxHeight:150, overflow:'auto'}}>
         <ol>
           {groups.length && groups.map((i: any, ix: number) => (
-            <li key={i}>
+            <li key={i.name}>
               <span 
                 className='cursor-pointer'
-                onClick={() => {setGroupIx(ix)}}>
+                onClick={(e) => selectGroup(e, ix)}>
                 {i.name}
               </span>
             </li>
@@ -76,10 +82,23 @@ export const H5Handler:FC<H5HandlerProps> = ({ data }) => {
           }
         </ol>
       </div>
-      { groups[groupIx].name != '' &&
+      <br/><br/>
+      { datasets.length ?
         <span>
-          {JSON.stringify(groups[groupIx].datasets)}
+          DSETS
+          {JSON.stringify(datasets)}
         </span>
+        :
+        <></>
+      }
+      <br/><br/>
+      { attrs.length ?
+        <span>
+          ATTRS
+          {JSON.stringify(attrs)}
+        </span>
+        :
+        <></>
       }
       <br/><br/>
       <ol>
@@ -90,15 +109,6 @@ export const H5Handler:FC<H5HandlerProps> = ({ data }) => {
           ))
         }
       </ol>
-      {groups[groupIx].groups.length ?
-        <button 
-          style={{background:'red'}} 
-          onClick={nextGroupLayer}>
-            next group layer
-        </button>
-        :
-        <></>
-      }
       {groupsStack.current.length ?
         <button 
           style={{background:'yellow'}} 

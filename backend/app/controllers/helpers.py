@@ -27,6 +27,7 @@ def sub_tilde(s):
 
 
 def is_text(path):
+    # TODO does not flag empty text files as text (since file type is inode/x-empty)
     path = path.replace(' ', '\\')
     file_stdout = run_shell_stdout(f'file --mime-type {path}')
     return ': text' in file_stdout
