@@ -1,6 +1,7 @@
+/// <reference types="vite-plugin-svgr/client" />
 import { FC, useState } from "react";
 import { Modal } from "../common/Modal";
-import {ReactComponent as DownPointer } from '../../assets/svg/down-arrow-5-svgrepo-com.svg';
+import DownPointer  from '../../assets/svg/down-arrow-5-svgrepo-com.svg?react';
 import { useSetBookmarks } from "../../hooks/useSetBookmarks";
 
 

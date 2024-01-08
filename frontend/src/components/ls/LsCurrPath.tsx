@@ -1,5 +1,6 @@
+/// <reference types="vite-plugin-svgr/client" />
 import { FC, useState } from "react";
-import { ReactComponent as BookmarkIcon} from '../../assets/svg/bookmark-svgrepo-com.svg';
+import BookmarkIcon from '../../assets/svg/bookmark-svgrepo-com.svg?react';
 import { AddBookmarkPrompt } from "./AddBookmarkPrompt";
 import { useCd } from "../../hooks/useCd";
 
