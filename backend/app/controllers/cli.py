@@ -59,9 +59,9 @@ def cd(target):
     else:
         dir_text = join(app.config['PWD'], target)
     if not os.path.exists(dir_text):
-        return jsonify({'err': f'cd: no such file or directory: {target}'})
+        return jsonify({'err': f'cd: no such file or directory: {target}'}), 404
     app.config['PWD'] = dir_text
-    return ls()
+    return ls(), 200
 
 
 def code(target):

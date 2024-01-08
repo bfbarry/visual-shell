@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
+import '../../css/handlers.css'
 
 
 interface GroupState {
@@ -10,9 +11,9 @@ interface H5HandlerProps {
   data: any;
 }
 export const H5Handler:FC<H5HandlerProps> = ({ data }) => {
-  let css: React.CSSProperties = {
+  let parentCSS: React.CSSProperties = {
     width: '400px',
-    height: '600px',
+    height: '525px',
     color: 'black',
     background: 'gray',
     overflow: 'auto'
@@ -65,44 +66,68 @@ export const H5Handler:FC<H5HandlerProps> = ({ data }) => {
   // show list of groups, when click on one group show menu with dataset info
   // onClick: update groupIx, update base only of fullGroupPath
   return (
-    <div style={css}>
+    <div style={parentCSS}>
       <h1><b>{fullGroupName}</b></h1>
       <span>{groups.length} group(s)</span>
-      <div style={{maxHeight:150, overflow:'auto'}}>
-        <ol>
-          {groups.length && groups.map((i: any, ix: number) => (
+      <div style={{maxHeight:150, overflow:'auto', display: 'flex', justifyContent: 'center'}}>
+        <ol style={{display: 'flex', flexDirection:'row'}}>
+          {groups.length ? groups.map((i: any, ix: number) => (
             <li key={i.name}>
-              <span 
+              <button 
                 className='cursor-pointer'
+                style={{background: '#8590c7', fontWeight: 'bold', borderRadius: '6px', marginRight: '10px'}}
                 onClick={(e) => selectGroup(e, ix)}>
                 {i.name}
-              </span>
+              </button>
             </li>
             ))
+            :
+            <li></li>
           }
         </ol>
       </div>
       <br/><br/>
+      <h2 style={{fontWeight: 'bold'}}>datasets info</h2>
       { datasets.length ?
-        <span>
-          DSETS
-          {JSON.stringify(datasets)}
-        </span>
+        <table>
+          <thead style={{fontWeight:'bold'}}>
+            <tr>
+              <th>name</th>
+              <th>shape</th>
+              <th>dtype</th>
+              <th>attrs</th>
+            </tr>
+          </thead>
+          <tbody>
+          {datasets.map((obj) => (
+            <tr key={obj.name}>
+              <td>{obj.name}</td>
+              <td>{JSON.stringify(obj.shape)}</td>
+              <td>{obj.dtype}</td>
+              <td
+                style={{maxWidth:'200px', maxHeight:'20px', overflow:'auto', whiteSpace:'nowrap'}}
+              >{JSON.stringify(obj.attrs)}</td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
         :
-        <></>
+        <>[no datasets]</>
       }
       <br/><br/>
-      { attrs.length ?
-        <span>
-          ATTRS
-          {JSON.stringify(attrs)}
-        </span>
-        :
-        <></>
-      }
+      <h2 style={{fontWeight: 'bold'}}>dataset attrs</h2>
+      <ol>
+        {attrs.length ?
+            attrs.map((i: any, ix: number) => (
+            <li key={ix}>{i.name} : {i.value}</li>
+            ))
+          :
+          <p>[no attrs]</p>}
+
+      </ol>
       <br/><br/>
       <ol>
-        <p><b>top level attrs</b></p>
+        <p><b>root attrs</b></p>
         {data.attrs && 
           data.attrs.map((i: any, ix: number) => (
           <li key={ix}>{i.name} : {i.value}</li>
