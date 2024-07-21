@@ -10,8 +10,8 @@ here_dir = Path(__file__).parent.absolute()
 sys.path.append(here_dir)
 from handlers.default_handler_h5 import main as h5_handler_main
 
-CSV_FILE_PATH = os.path.join(here_dir, 'dummy_data.csv')
-H5_FILE_PATH = os.path.join(here_dir, 'dummy_data.h5')
+CSV_FILE_PATH = os.path.join(here_dir, 'test_data.csv')
+H5_FILE_PATH = os.path.join(here_dir, 'test_data.h5')
 
 
 def create_file_h5():

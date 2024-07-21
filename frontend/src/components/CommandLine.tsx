@@ -33,7 +33,7 @@ const CommandLine:FC<CommandLineProps> = (props) => {
   }
 
   return (
-    <div className='rounded-md flex inline-flex p-[10px] w-[800px] bg-[#242424] m-1'>
+    <div className='rounded-md flex inline-flex p-[10px] w-[800px] bg-[#242424] m-1 h-full'>
       <form onSubmit={handleSubmit}>
         <span className='text-white'>$ </span>
         <input className='bg-[black] text-white caret-white w-[700px]' 

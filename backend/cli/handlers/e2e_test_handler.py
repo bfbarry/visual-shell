@@ -6,7 +6,7 @@ import json
 
 
 here_dir = Path(__file__).parent.absolute()
-H5_FILE_PATH = '/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.h5'
+H5_FILE_PATH = '/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/test_data.h5'
 handler = "/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/handlers/default_handler_h5.py"
 if __name__== '__main__':
     path, module = dirname(handler), basename(handler).split('.py')[0]

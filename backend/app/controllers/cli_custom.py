@@ -113,5 +113,5 @@ def list_handlers() -> list:
 
 
 if __name__ == '__main__':
-    print(get_handler('/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/dummy_data.csv'))
+    print(get_handler('/Users/brianbarry/Desktop/computing/visual-shell/backend/cli/test_data.csv'))
     ...

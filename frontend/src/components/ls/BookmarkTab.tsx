@@ -48,7 +48,7 @@ export const BookmarkTab:FC = () => {
 
   // TODO this is rendering too much
   return (
-    <div className="rounded-md bg-[#242424] w-[100px] overflow-auto mt-[29px] mb-1">
+    <div className="ml-1 mr-2 rounded-md bg-[#242424] w-[110px] overflow-auto mt-[29px] mb-1">
       <ol>
       {bookmarks.length ?
         bookmarks.map((bookmark, ix) => {

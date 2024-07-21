@@ -17,7 +17,7 @@ const SearchBar:FC<SearchBarProps> = (props) => {
   // This is a high level component because otherwise it loses focus on each rerender (composition vs inheritance!)
   
   return (
-    <div className='p-[10px] bg-[#242424] w-[800px] rounded-b-md'>
+    <div className='p-[10px] bg-[#242424] rounded-b-md'>
       <input className='bg-[black] text-white caret-white' 
             type="text"
             value={props.searchTerm} 
@@ -133,7 +133,7 @@ const LsWindow:FC = () => {
   }
   const LsContainer:FC<LsContainerProps> = ({children}) => {
     return (
-      <div className='rounded-t-md flex flex-wrap bg-[#242424] h-[600px] w-[800px] gap-[15px] content-start overflow-auto p-[10px] '>
+      <div className='rounded-t-md flex flex-wrap bg-[#242424] h-[600px] gap-[15px] content-start overflow-auto p-[10px] '>
         {children}
       </div>
     )
@@ -142,7 +142,7 @@ const LsWindow:FC = () => {
   return (
     <div className="flex flex-row">
     {ls.length &&
-      <div className="m-1">
+      <div className="w-full m-1">
         <LsCurrPath currPath={currPath} setCurrPath={setCurrPath}/>
         <LsContainer>
           {ls.slice(1).filter(i => i.name.includes(searchTerm) )
@@ -172,6 +172,7 @@ const LsWindow:FC = () => {
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} key="searchbar"/>
       </div>
     }
+    {/* TODO should be part of above div so shrinks along with LS */}
     <BookmarkTab/>
     {
       showHandler && 
