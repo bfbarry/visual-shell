@@ -1,7 +1,7 @@
 import os
 import subprocess as sp
 from .. import app
-
+import mimetypes
 
 def run_shell_no_stdout(cmd):
     sp.run(cmd, shell=True)
@@ -26,8 +26,27 @@ def sub_tilde(s):
     return s
 
 
-def is_text(path):
-    # TODO does not flag empty text files as text (since file type is inode/x-empty)
-    path = path.replace(' ', '\\')
-    file_stdout = run_shell_stdout(f'file --mime-type {path}')
-    return ': text' in file_stdout
+def is_text(filepath, max_bytes=512) -> bool:
+    # Define the range of valid ASCII text characters
+    text_characters = bytearray({7, 8, 9, 10, 12, 13, 27} | set(range(0x20, 0x100)))
+    
+    try:
+        with open(filepath, 'rb') as file:
+            header = file.read(5)
+            if header == b'%PDF-': # 
+                return False
+            # Read up to max_bytes from the file
+            chunk = file.read(max_bytes)
+            
+            if not chunk:
+                # If the file is empty, consider it a text file
+                return True
+
+            # Check for the presence of non-text characters
+            if any(byte not in text_characters for byte in chunk):
+                return False
+
+            return True
+        
+    except Exception as e:
+        return False

@@ -3,7 +3,7 @@ export function getBaseNameWithoutExtension(path: string) {
   let baseName = path.split(/[\\/]/).pop();
   baseName = baseName ? baseName : '';
   // Remove the file extension
-  let extensionIndex = baseName.lastIndexOf(".");
+  const extensionIndex = baseName.lastIndexOf(".");
   if (extensionIndex !== -1) {
       baseName = baseName.substring(0, extensionIndex);
   }
