@@ -1,6 +1,7 @@
-import { FC, useRef } from "react";
+import { FC } from "react";
 import { Backdrop } from "../common/Backdrop";
 import { H5Handler } from "./H5Handler";
+import { CSVHandler } from "./CSVHandler";
 
 interface HandlerProps {
   handlerName: string;
@@ -13,6 +14,9 @@ export const Handler:FC<HandlerProps> = ({ handlerName, data, hideSelf }) => {
     case 'default_handler_h5':
       HandlerComponent = H5Handler;
       break;
+    case 'default_handler_csv':
+      HandlerComponent = CSVHandler;
+
   }
   return (
     <Backdrop hideSelf={hideSelf} menuType='MODAL'>

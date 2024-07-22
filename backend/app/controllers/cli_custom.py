@@ -2,7 +2,7 @@ import sys
 from app import app
 from os.path import join, dirname, realpath, basename
 import subprocess as sp
-from flask import jsonify
+from flask import jsonify, Response
 import json
 import re
 
@@ -27,8 +27,8 @@ if default_handlers_missing:
             json.dump(handlers, f, indent=4)
 
 
-def get_handler(fpath):
-    # TODO: default handler not wokring
+def get_handler(fpath) -> str:
+    # TODO: default handler not working
     handler_path = handlers.get(fpath)
     if not handler_path:
         # find default handler
@@ -47,7 +47,7 @@ def get_handler(fpath):
     return handler_path
 
 
-def handle(handler_path, file_path) -> json:
+def handle(handler_path, file_path) -> Response:
     """
     fpath (str): path of file to consume by custom handler
     interface consideration: might rename this differently than the custom shell command?
@@ -61,24 +61,25 @@ def handle(handler_path, file_path) -> json:
 
 
 def attach_handler(fpath):
+    # TODO
     ...
 
 
-def get_bookmarks():
+def _get_bookmarks_dict() -> dict:
     with open(bookmark_config_path, 'r') as f:
         bookmarks = json.load(f)
     
     return bookmarks
 
 
-def get_bookmark_objects():
-    bookmarks = get_bookmarks()
+def get_bookmark_objects() -> Response:
+    bookmarks = _get_bookmarks_dict()
     bookmark_objects = [{'alias': k, 'path': v} for k,v in bookmarks.items()]
     return jsonify(bookmark_objects)
 
 # TODO error handling with these functions
 def save_dir_bookmark(alias, path) -> None:
-    bookmarks = get_bookmarks()
+    bookmarks = _get_bookmarks_dict()
     if alias in bookmarks.keys():
         return jsonify({'error': 'alias already in use'}), 406
     if path in bookmarks.values():
@@ -94,7 +95,7 @@ def save_dir_bookmark(alias, path) -> None:
 
 def delete_bookmark(alias):
     # Read the existing data from the file
-    bookmarks = get_bookmarks()
+    bookmarks = _get_bookmarks_dict()
 
     if alias in bookmarks:
         del bookmarks[alias]

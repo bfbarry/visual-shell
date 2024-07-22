@@ -27,7 +27,8 @@ export const Backdrop:FC<BackdropProps> = ({ children, hideSelf, menuType }) => 
         left: 0,
         zIndex: 1,
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     };
       break;
   }

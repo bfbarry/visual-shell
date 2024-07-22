@@ -31,18 +31,19 @@ def is_text(filepath, max_bytes=512) -> bool:
     text_characters = bytearray({7, 8, 9, 10, 12, 13, 27} | set(range(0x20, 0x100)))
     
     try:
-        with open(filepath, 'rb') as file:
-            header = file.read(5)
+        with open(filepath, 'rb') as f:
+            header = f.read(5)
             if header == b'%PDF-': # 
                 return False
-            # Read up to max_bytes from the file
-            chunk = file.read(max_bytes)
+
+            f.seek(0)
+            chunk = f.read(max_bytes)
             
             if not chunk:
-                # If the file is empty, consider it a text file
+                # empty files are considered text
                 return True
 
-            # Check for the presence of non-text characters
+            # look for non-text characters
             if any(byte not in text_characters for byte in chunk):
                 return False
 

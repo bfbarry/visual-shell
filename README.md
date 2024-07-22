@@ -1,33 +1,21 @@
 # visual shell
 
-built on node and react
+Visual shell is a file system UI, optimized for developers. (The goal is to more generally make it a UI wrapper for the command line interface.)
 
-# TODO
-- `ls` is too dang slow
-- error handling
-    - cd enter
-    - bookmarks
-- back button (separate from `..`)
-- FS events for config files
-- create new file button
-- h5, csv handler
-- right click context menu
-- 'workflows' kind of like aliases but more temporary
-    - eg., checking ls -la | grep thing of directory
-    - keep this in sidebar
-- expandable cli zones
-- make micro python 'shell' scripts (have all os and path modules pre imported) in the terminal, runs as child_process
-    - could just create a directory specifically for these scripts, and open it directly with vs code!
-- other figma stuff
-- clicking on a file should have different behavior depending on what it is
-    - remove the 'opacity' between what you see in `ls` and underlying data
-        - certain file formats (csv, pickle, h5py) automatically open a jupyter notebook with prewritten code to load it upon click?
-- graphical `mv`: select to and from
-- combine with brian_utils (like git thing)
-- console/command line should have console controller, which then delegates to different functions based on string input (e.g., mkdir, cd, grep)
-- show connection status with ssh so user doesn't have to type to find out
+Current features
+- Navigation
+    - ls window
+    - directory bookmarks
+    - file name filter
+    - open text files with VS code directly
+- File exploration
+    - Visualize data with custom and default file handlers
+    - Currently supports: csv and hdf5 files
 
-## UI
-- should be able to have a view with full history (like a regular shell)
-# Issues
-- how to ensure security if it grows as an ecosytem?
+## Requirements:
+- Have VS code installed
+    - ensure VS code binaries are added to the path with
+    ```shell
+    export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+    ```
+- Electron app built on flask and react 

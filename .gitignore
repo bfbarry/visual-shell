@@ -4,3 +4,5 @@ venv
 # test data
 *.h5
 *.csv
+data
+dummy_output_h5.json
