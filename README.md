@@ -1,5 +1,5 @@
 # visual shell
-
+![](img/demo.gif)
 Visual shell is a file system UI, optimized for developers. (The goal is to more generally make it a UI wrapper for the command line interface.)
 
 Current features
@@ -19,3 +19,14 @@ Current features
     export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     ```
 - Electron app built on flask and react 
+
+## To run
+```shell
+$ cd electron-app && npm run make
+$ python backend/run.py
+```
+and open the application in `electron-app/out`
+
+
+## Command tracker (@self)
+- npm init electron-app@latest my-new-app -- --template=webpack

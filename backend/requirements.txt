@@ -8,3 +8,4 @@ Werkzeug==3.0.1
 Flask-Cors==4.0.0
 h5py==3.7.0
 pandas==1.4.4
+python-dotenv==1.0.1
